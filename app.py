@@ -67,3 +67,26 @@ Remind the patient this is general education, not medical advice, and that they 
 consult their doctor for diagnosis or treatment decisions.
 
 Keep the tone warm and reassuring. Avoid technical terms unless you immediately explain
+them.
+"""
+
+if analyze_btn:
+    if not uploaded_file:
+        st.error("Please upload a report first.")
+    else:
+        with st.spinner("Analyzing your report..."):
+            try:
+                if uploaded_file.type == "application/pdf":
+                    text = extract_text_from_pdf(uploaded_file)
+                    content_parts = [text]
+                else:
+                    image = Image.open(uploaded_file)
+                    content_parts = [image]
+
+                st.session_state.summary = analyze_report(GEMINI_API_KEY, content_parts)
+                st.session_state.chat_history = []  # reset chat for a new report
+            except Exception as e:
+                st.error(f"Something went wrong: {e}")
+
+if st.session_state.summary:
+    st.markdown(st.session_state.summary)
