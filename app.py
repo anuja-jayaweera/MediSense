@@ -17,7 +17,7 @@ analyze_btn = st.sidebar.button("Analyze Report", use_container_width=True)
 # ---------------- Main UI ----------------
 st.title("MediSense")
 st.caption("Understand Your Medical Reports. In Simple Language.")
-st.info("👈 Upload a medical report and click 'Analyze Report' to get started.")
+
 
 # ---------------- Session state ----------------
 if "summary" not in st.session_state:
@@ -69,6 +69,14 @@ consult their doctor for diagnosis or treatment decisions.
 Keep the tone warm and reassuring. Avoid technical terms unless you immediately explain
 them.
 """
+def get_model(api_key):
+    genai.configure(api_key=api_key)
+    return genai.GenerativeModel("gemini-3.6-flash")
+
+def analyze_report(api_key, content_parts):
+    model = get_model(api_key)
+    response = model.generate_content([SUMMARY_PROMPT] + content_parts)
+    return response.text
 
 if analyze_btn:
     if not uploaded_file:
@@ -90,3 +98,5 @@ if analyze_btn:
 
 if st.session_state.summary:
     st.markdown(st.session_state.summary)
+else:
+    st.info("👈 Upload a medical report and click 'Analyze Report' to get started.")
