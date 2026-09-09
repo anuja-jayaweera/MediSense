@@ -21,8 +21,11 @@
 }
 
 /* ---------------- App shell ---------------- */
+/* Fallback color only — the actual background image + overlay
+   gradient is injected from Python (see set_background() in
+   app.py) so it can embed assets/background.jpg. */
 .stApp {
-    background: radial-gradient(circle at 20% 0%, #131a2b 0%, var(--ms-bg) 55%);
+    background-color: var(--ms-bg);
     color: var(--ms-text-primary);
 }
 
@@ -33,6 +36,11 @@
 
 [data-testid="stSidebar"] * {
     color: var(--ms-text-primary);
+}
+
+[data-testid="stSidebar"] [data-testid="stImage"] img {
+    border-radius: 10px;
+    margin-bottom: 6px;
 }
 
 header[data-testid="stHeader"] {

@@ -1,5 +1,6 @@
 import json
 import re
+import base64
 
 import streamlit as st
 import streamlit.components.v1 as components
@@ -19,6 +20,31 @@ def load_css(path: str):
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 
+# ---------------- Background artwork ----------------
+def set_background(path: str):
+    """Embed a background image as base64 so it works with no extra
+    server config, layered under a dark gradient so text/cards on
+    top stay readable."""
+    bg_path = Path(__file__).parent / path
+    encoded = base64.b64encode(bg_path.read_bytes()).decode()
+    ext = bg_path.suffix.lstrip(".").lower()
+    mime = "jpeg" if ext in ("jpg", "jpeg") else ext
+
+    st.markdown(f"""
+    <style>
+    .stApp {{
+        background-image:
+            linear-gradient(180deg, rgba(10,14,24,0.50) 0%, rgba(10,14,24,0.65) 55%, rgba(10,14,24,0.80) 100%),
+            url("data:image/{mime};base64,{encoded}");
+        background-size: cover;
+        background-position: center top;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+
 # ---------------- Custom interactivity (external JS) ----------------
 def load_js(path: str):
     js_path = Path(__file__).parent / path
@@ -32,6 +58,7 @@ def load_js(path: str):
 
 
 load_css("css/style.css")
+set_background("assets/background.jpg")
 load_js("js/interactions.js")
 
 STATUS_COLORS = {
@@ -41,7 +68,7 @@ STATUS_COLORS = {
 }
 
 # ---------------- Sidebar ----------------
-st.sidebar.title("💙 MediSense")
+st.sidebar.image("assets/logo.png", use_container_width=True)
 st.sidebar.caption("Understand Your Medical Reports. In Simple Language.")
 
 uploaded_file = st.sidebar.file_uploader(
@@ -133,7 +160,9 @@ def render_dashboard(items):
     search_col, filter_col = st.columns([2, 3])
     with search_col:
         query = st.text_input(
-            "🔍 Search a test", placeholder="🔍 Search test name — e.g. Hemoglobin, Glucose..", label_visibility="collapsed"
+            "🔍 Search a test",
+            placeholder="🔍 Search test name — e.g. Hemoglobin, Glucose...",
+            label_visibility="collapsed",
         )
     with filter_col:
         status_filter = st.segmented_control(
