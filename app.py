@@ -66,10 +66,9 @@ STATUS_COLORS = {
     "Borderline": "#eab308",
     "Attention": "#ef4444",
 }
-
-# ---------------- Sidebar ----------------
+# ---------------- Sidebar----------------
 st.sidebar.image("assets/logo.png", use_container_width=True)
-st.sidebar.caption("Understand Your Medical Reports. In Simple Language.")
+st.sidebar.caption("MediSense — Intelligent Insights. Clearer Health.")
 
 uploaded_file = st.sidebar.file_uploader(
     "Upload Medical Report (PDF or Image)", type=["pdf", "png", "jpg", "jpeg"]
@@ -80,15 +79,15 @@ if uploaded_file:
 
 analyze_btn = st.sidebar.button("Analyze Report", use_container_width=True, type="primary")
 
-if st.session_state.get("summary_text"):
-    if st.sidebar.button("🗑️ Clear & Start Over", use_container_width=True):
-        for key in ["summary_text", "dashboard_items", "chat_history", "raw_response"]:
-            st.session_state.pop(key, None)
-        st.rerun()
+if st.sidebar.button("🗑️ Clear & Start Over", use_container_width=True, type="secondary"):
+    for key in ["summary_text", "dashboard_items", "chat_history", "raw_response"]:
+        st.session_state.pop(key, None)
+    st.rerun()
+
 
 # ---------------- Main UI ----------------
 st.title("MediSense")
-st.caption("Understand Your Medical Reports. In Simple Language.")
+st.caption("MediSense — Intelligent Insights. Clearer Health.")
 
 # ---------------- Session state ----------------
 if "summary_text" not in st.session_state:
@@ -296,7 +295,7 @@ if analyze_btn:
                     image = Image.open(uploaded_file)
                     content_parts = [image]
 
-                status.write("🧠 Asking Gemini to interpret the results...")
+                status.write("🩺 Making sense of your results… almost there!...")
                 raw_response = analyze_report(GEMINI_API_KEY, content_parts)
 
                 status.write("🚦 Building your health dashboard...")
@@ -313,7 +312,7 @@ if analyze_btn:
 
 # ---------------- Results ----------------
 if st.session_state.summary_text:
-    tab_dashboard, tab_report, tab_chat = st.tabs(["🚦 Dashboard", "📋 Full Report", "💬 Chat"])
+    tab_dashboard, tab_report, tab_chat = st.tabs(["🚦 Dashboard", "📋 Full Report", "🤖 MediSense AI"])
 
     with tab_dashboard:
         render_dashboard(st.session_state.dashboard_items)
@@ -322,7 +321,7 @@ if st.session_state.summary_text:
         st.markdown(st.session_state.summary_text)
 
     with tab_chat:
-        st.subheader("💬 Ask MediSense a question")
+        st.subheader("💬 Ask MediSense AI a question")
 
         for role, msg in st.session_state.chat_history:
             with st.chat_message(role):
@@ -344,4 +343,46 @@ if st.session_state.summary_text:
                     st.write(answer)
                     st.session_state.chat_history.append(("assistant", answer))
 else:
-    st.info("👈 Upload a medical report and click 'Analyze Report' to get started.")
+    st.markdown("""
+    <section class="ms-welcome" aria-label="MediSense overview">
+        <div class="ms-welcome-intro">
+            <div class="ms-kicker">YOUR HEALTH, MADE CLEAR</div>
+            <h2>Turn a medical report into a plan you can understand.</h2>
+            <p>Upload a PDF or image from the sidebar. MediSense highlights important values, explains unfamiliar terms, and gives you useful questions to take to your doctor.</p>
+            <div class="ms-welcome-prompt"><span>1</span><strong>Start with your report</strong><small>Use the upload panel on the left to begin.</small></div>
+        </div>
+        <div class="ms-welcome-orbit" aria-hidden="true">
+            <div class="ms-orbit-ring ms-orbit-ring-one"></div>
+            <div class="ms-orbit-ring ms-orbit-ring-two"></div>
+            <div class="ms-orbit-core"><span>✦</span><small>clearer<br>health</small></div>
+        </div>
+    </section>
+
+    <div class="ms-feature-heading">
+        <div><span class="ms-kicker">WHAT YOU GET</span><h3>A calmer way to read your results</h3></div>
+        <span class="ms-feature-note">Built for questions, not diagnoses.</span>
+    </div>
+
+    <section class="ms-feature-grid">
+        <article class="ms-feature-card">
+            <span class="ms-feature-icon">◎</span>
+            <div><h4>See what matters</h4><p>Important test values are grouped into an easy-to-scan dashboard.</p></div>
+        </article>
+        <article class="ms-feature-card">
+            <span class="ms-feature-icon">Aa</span>
+            <div><h4>Lose the jargon</h4><p>Technical language is translated into simple, everyday explanations.</p></div>
+        </article>
+        <article class="ms-feature-card">
+            <span class="ms-feature-icon">?</span>
+            <div><h4>Prepare to ask</h4><p>Save specific questions so your next conversation with a doctor is focused.</p></div>
+        </article>
+    </section>
+
+    <div class="ms-process-strip">
+        <div><span>01</span><strong>Upload</strong><small>PDF or image</small></div>
+        <i></i>
+        <div><span>02</span><strong>Understand</strong><small>Plain-language insights</small></div>
+        <i></i>
+        <div><span>03</span><strong>Discuss</strong><small>Better doctor questions</small></div>
+    </div>
+    """, unsafe_allow_html=True)
