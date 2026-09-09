@@ -68,7 +68,7 @@ STATUS_COLORS = {
 }
 # ---------------- Sidebar----------------
 st.sidebar.image("assets/logo.png", use_container_width=True)
-st.sidebar.caption("MediSense — Intelligent Insights. Clearer Health.")
+st.sidebar.caption("Intelligent Insights. Clearer Health.")
 
 uploaded_file = st.sidebar.file_uploader(
     "Upload Medical Report (PDF or Image)", type=["pdf", "png", "jpg", "jpeg"]
@@ -87,7 +87,7 @@ if st.sidebar.button("🗑️ Clear & Start Over", use_container_width=True, typ
 
 # ---------------- Main UI ----------------
 st.title("MediSense")
-st.caption("MediSense — Intelligent Insights. Clearer Health.")
+st.caption("Intelligent Insights. Clearer Health.")
 
 # ---------------- Session state ----------------
 if "summary_text" not in st.session_state:
@@ -233,7 +233,7 @@ List any medical/technical terms that appeared in the report and explain each in
 simple sentence.
 
 ## Questions For Your Doctor
-Give 3 short, specific questions the patient could ask their doctor based on this report.
+Give 3 short, specific questions the patient could ask their doctor based on the reports.
 
 ## Disclaimer
 Remind the patient this is general education, not medical advice, and that they should
@@ -265,15 +265,15 @@ def analyze_report(api_key, content_parts):
 def ask_chatbot(api_key, summary, question):
     model = get_model(api_key)
     chat_prompt = f"""
-You are MediSense, a friendly AI health assistant. You already gave the patient this
+You are MediSense AI, a friendly AI health assistant. You already gave the patient this
 report summary:
 
 {summary}
 
 The patient (who has no medical background) now asks a follow-up question. Answer in
 simple, clear, reassuring language. Suggest practical next steps if relevant, but do NOT
-give a diagnosis or prescribe medication. Remind them to consult a doctor for anything
-that needs medical judgement.
+give a diagnosis or prescribe medication.If the patient asks to do so remind them to consult a doctor for anything
+that needs medical judgement. 
 
 Patient's question: {question}
 """
