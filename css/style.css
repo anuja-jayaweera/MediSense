@@ -1,0 +1,316 @@
+/* ==========================================================================
+   MediSense — Dark Theme Stylesheet
+   ========================================================================== */
+
+:root {
+    --ms-bg: #0f1420;
+    --ms-bg-elevated: #161d2e;
+    --ms-bg-card: #1a2236;
+    --ms-border: rgba(148, 163, 184, 0.14);
+    --ms-text-primary: #e5e9f2;
+    --ms-text-muted: #8a93a6;
+    --ms-accent: #38bdf8;
+    --ms-accent-soft: rgba(56, 189, 248, 0.12);
+
+    --ms-normal: #22c55e;
+    --ms-normal-bg: rgba(34, 197, 94, 0.10);
+    --ms-borderline: #eab308;
+    --ms-borderline-bg: rgba(234, 179, 8, 0.10);
+    --ms-attention: #ef4444;
+    --ms-attention-bg: rgba(239, 68, 68, 0.10);
+}
+
+/* ---------------- App shell ---------------- */
+.stApp {
+    background: radial-gradient(circle at 20% 0%, #131a2b 0%, var(--ms-bg) 55%);
+    color: var(--ms-text-primary);
+}
+
+[data-testid="stSidebar"] {
+    background: var(--ms-bg-elevated);
+    border-right: 1px solid var(--ms-border);
+}
+
+[data-testid="stSidebar"] * {
+    color: var(--ms-text-primary);
+}
+
+header[data-testid="stHeader"] {
+    background: transparent;
+}
+
+/* ---------------- Typography ---------------- */
+h1, h2, h3 {
+    color: var(--ms-text-primary) !important;
+    letter-spacing: -0.01em;
+}
+
+.ms-caption {
+    color: var(--ms-text-muted);
+    font-size: 15px;
+    margin-top: -8px;
+}
+
+/* ---------------- Buttons ---------------- */
+.stButton > button {
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0.55em 1.1em;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.18);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.28);
+}
+
+.stButton > button:active {
+    transform: translateY(0px) scale(0.98);
+}
+
+/* Secondary / clear button look */
+[data-testid="stSidebar"] .stButton > button {
+    background: var(--ms-bg-card);
+    border: 1px solid var(--ms-border);
+    box-shadow: none;
+}
+[data-testid="stSidebar"] .stButton > button:hover {
+    border-color: var(--ms-accent);
+    color: var(--ms-accent);
+}
+
+/* ---------------- Tabs ---------------- */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 4px;
+    border-bottom: 1px solid var(--ms-border);
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: transparent;
+    color: var(--ms-text-muted);
+    border-radius: 10px 10px 0 0;
+    padding: 10px 18px;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--ms-accent-soft) !important;
+    color: var(--ms-accent) !important;
+    font-weight: 600;
+}
+
+/* ---------------- Metrics ---------------- */
+[data-testid="stMetric"] {
+    background: var(--ms-bg-card);
+    border: 1px solid var(--ms-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    border-color: var(--ms-accent);
+}
+[data-testid="stMetricValue"] {
+    color: var(--ms-text-primary);
+}
+
+/* ---------------- Traffic-light dashboard cards ---------------- */
+.ms-card {
+    position: relative;
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    background: var(--ms-bg-card);
+    border: 1px solid var(--ms-border);
+    border-left: 5px solid var(--ms-status-color, #94a3b8);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    animation: ms-fade-in 0.35s ease both;
+}
+
+.ms-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    border-color: var(--ms-status-color, #94a3b8);
+}
+
+.ms-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ms-dot {
+    height: 11px;
+    width: 11px;
+    border-radius: 50%;
+    background: var(--ms-status-color, #94a3b8);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ms-status-color, #94a3b8) 20%, transparent);
+    flex-shrink: 0;
+}
+
+.ms-card-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ms-text-primary);
+}
+
+.ms-card-value {
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 8px;
+    color: var(--ms-text-primary);
+}
+
+.ms-card-unit {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ms-text-muted);
+    margin-left: 2px;
+}
+
+.ms-card-range {
+    font-size: 12px;
+    color: var(--ms-text-muted);
+    margin-top: 6px;
+}
+
+.ms-card-status {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-top: 10px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: var(--ms-status-color, #94a3b8);
+    background: var(--ms-status-bg, rgba(148,163,184,0.12));
+}
+
+.ms-card-note {
+    font-size: 13px;
+    margin-top: 10px;
+    line-height: 1.45;
+    color: var(--ms-text-muted);
+}
+
+.ms-card-note summary {
+    cursor: pointer;
+    color: var(--ms-accent);
+    font-size: 12px;
+    font-weight: 600;
+    list-style: none;
+}
+.ms-card-note summary::-webkit-details-marker { display: none; }
+.ms-card-note summary::after {
+    content: " ▾ details";
+}
+.ms-card-note[open] summary::after {
+    content: " ▴ hide";
+}
+
+@keyframes ms-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------- Chat ---------------- */
+[data-testid="stChatMessage"] {
+    background: var(--ms-bg-card);
+    border: 1px solid var(--ms-border);
+    border-radius: 14px;
+}
+
+[data-testid="stChatInput"] textarea {
+    background: var(--ms-bg-card) !important;
+    color: var(--ms-text-primary) !important;
+}
+
+/* ---------------- File uploader ---------------- */
+[data-testid="stFileUploaderDropzone"] {
+    background: var(--ms-bg-card);
+    border: 1px dashed var(--ms-border);
+    border-radius: 12px;
+}
+
+/* ---------------- Scrollbar ---------------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--ms-bg); }
+::-webkit-scrollbar-thumb {
+    background: #2a3550;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ms-accent); }
+
+/* ---------------- Status filter chips ---------------- */
+.ms-filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   JS-driven interactivity (see js/interactions.js)
+   ========================================================================== */
+
+/* Attention cards get a slow heartbeat glow so they draw the eye */
+@keyframes ms-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }
+    50%      { box-shadow: 0 0 0 9px rgba(239, 68, 68, 0); }
+}
+.ms-pulse {
+    animation: ms-pulse 2.2s ease-in-out infinite;
+}
+
+/* Copy-to-clipboard toast */
+.ms-toast {
+    position: fixed;
+    bottom: 26px;
+    left: 50%;
+    transform: translate(-50%, 14px);
+    background: var(--ms-bg-card, #1a2236);
+    color: var(--ms-text-primary, #e5e9f2);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.ms-toast-show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* Floating back-to-top button */
+.ms-back-to-top {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.3);
+    z-index: 9998;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+    opacity: 0.85;
+}
+.ms-back-to-top:hover {
+    transform: translateY(-3px);
+    opacity: 1;
+}
